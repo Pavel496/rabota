@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5158562eb7e7f4c508cd308e73e5dc1b",
+    "content-hash": "d0081d756928f7c81a9d19716812ddcf",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1907,6 +1907,70 @@
                 "uuid"
             ],
             "time": "2018-01-20T00:28:24+00:00"
+        },
+        {
+            "name": "spatie/laravel-model-cleanup",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-model-cleanup.git",
+                "reference": "260fff24fb2ce10d439e57266a2e713430aa2f81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-model-cleanup/zipball/260fff24fb2ce10d439e57266a2e713430aa2f81",
+                "reference": "260fff24fb2ce10d439e57266a2e713430aa2f81",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5.0",
+                "nesbot/carbon": "^1.0",
+                "nikic/php-parser": "^3.0",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "~3.5.0",
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ModelCleanup\\ModelCleanupServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ModelCleanup\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Jolita Grazyte",
+                    "email": "jolita@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This package deletes unneeded records in a database.",
+            "homepage": "https://github.com/spatie/laravel-model-cleanup",
+            "keywords": [
+                "laravel-model-cleanup",
+                "spatie"
+            ],
+            "time": "2017-12-19T22:49:13+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
