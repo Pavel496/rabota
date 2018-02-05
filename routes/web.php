@@ -1,8 +1,9 @@
 <?php
 
 Route::get('/', function () {
+    $mylink = true;
     $vacancies = App\Vacancy::orderBy('id', 'desc')->paginate(10);
-    return view('index', compact('vacancies')); })->name('index');
+    return view('index', compact('vacancies', 'mylink')); })->name('index');
 
 
 Route::get('/resume_list', function () {
