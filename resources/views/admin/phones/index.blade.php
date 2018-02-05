@@ -39,7 +39,7 @@
                         @endcan
 
                         <th>@lang('global.phones.fields.phone')</th>
-                        <th>@lang('global.phones.fields.code')</th>
+                        {{--<th>@lang('global.phones.fields.code')</th>--}}
                         <th>@lang('global.phones.fields.status')</th>
                         <th>@lang('global.phones.fields.created-by')</th>
                         @if( request('show_deleted') == 1 )
@@ -59,7 +59,7 @@
                                 @endcan
 
                                 <td field-key='phone'>{{ $phone->phone }}</td>
-                                <td field-key='code'>{{ $phone->code }}</td>
+                                {{--<td field-key='code'>{{ $phone->code }}</td>--}}
                                 <td field-key='status'>{{ Form::checkbox("status", 1, $phone->status == 1 ? true : false, ["disabled"]) }}</td>
                                 <td field-key='created_by'>{{ $phone->created_by->name or '' }}</td>
                                 @if( request('show_deleted') == 1 )
@@ -71,7 +71,7 @@
                                         'route' => ['admin.phones.restore', $phone->id])) !!}
                                     {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
                                     {!! Form::close() !!}
-                                                                    {!! Form::open(array(
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
@@ -81,14 +81,17 @@
                                                                 </td>
                                 @else
                                 <td>
-                                    @can('phone_view')
+                                    {{--@can('phone_view')
                                     <a href="{{ route('admin.phones.show',[$phone->id]) }}" class="btn btn-xs btn-primary">@lang('global.app_view')</a>
-                                    @endcan
+                                    @endcan--}}
+                                    
+
+                                    
                                     @can('phone_edit')
                                     <a href="{{ route('admin.phones.edit',[$phone->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    @endcan
+                                    @endcan                          
                                     @can('phone_delete')
-{!! Form::open(array(
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
@@ -96,6 +99,40 @@
                                     {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
                                     {!! Form::close() !!}
                                     @endcan
+                                    
+                                    
+                                    
+                                    @can('phone_edit')                                    
+                                    
+                                    @if( !$phone->status )
+                                    
+                                    <a href="{{ route('admin.phones.smscode', [$phone->id]) }}" class="btn btn-xs btn-success">Получить смс код</a>
+                                    
+                                    @endif
+                                    
+                                    
+                                    @if( $phone->code && !$phone->status )
+                                    
+                                    {!! Form::open(['method' => 'POST', 'route' => ['admin.phones.myregistr', $phone->id]]) !!}       
+                                    {!! Form::text('smscode', old(''), ['class' => 'form-control-xs', 'placeholder' => 'Введите смс код', 'required' => '']) !!}
+                                    {!! Form::submit(('Регистрация'), ['class' => 'btn btn-xs btn-success']) !!}
+                                    {!! Form::close() !!}
+                                    
+                                    @endif
+                                    
+                                    {{--<a href="{{ url('thr', [$phone->id]) }}" class="btn btn-xs btn-success">Проверка</a>
+                                    
+                                    {!! Form::open(['method' => 'POST', 'route' => ['admin.phones.smscode', $phone->id]]) !!}                                    
+                                    {!! Form::submit(('Получить код'), ['class' => 'btn btn-xs btn-success']) !!}
+                                    {!! Form::close() !!}--}}                                    
+                                    
+                                    
+                                    @endcan
+                                    
+                                    
+                                
+                                    
+    
                                 </td>
                                 @endif
                             </tr>
@@ -119,3 +156,10 @@
 
     </script>
 @endsection
+
+{{--
+    {!! Form::open(['method' => 'POST', 'route' => ['admin.phones.store']]) !!}                    
+    {!! Form::text('phone', old(''), ['class' => 'form-control-xs', 'placeholder' => '', 'required' => '']) !!}
+    {!! Form::submit(('Получить код'), ['class' => 'btn btn-xs btn-success']) !!}
+    {!! Form::close() !!}
+--}}

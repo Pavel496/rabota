@@ -56,7 +56,6 @@
                         <th>@lang('global.vacancies.fields.phone')</th>
                         <th>@lang('global.vacancies.fields.phone-temp')</th>
                         <th>@lang('global.vacancies.fields.created-by')</th>
-                        <th>@lang('global.vacancies.fields.to-delete-at')</th>
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
@@ -89,7 +88,6 @@
                                 <td field-key='phone'>{{ $vacancy->phone->phone or '' }}</td>
                                 <td field-key='phone_temp'>{{ $vacancy->phone_temp }}</td>
                                 <td field-key='created_by'>{{ $vacancy->created_by->name or '' }}</td>
-                                <td field-key='to_delete_at'>{{ $vacancy->to_delete_at }}</td>
                                 @if( request('show_deleted') == 1 )
                                 <td>
                                     {!! Form::open(array(
@@ -130,7 +128,7 @@
             @endforeach
         @else
             <tr>
-                <td colspan="18">@lang('global.app_no_entries_in_table')</td>
+                <td colspan="17">@lang('global.app_no_entries_in_table')</td>
             </tr>
         @endif
     </tbody>
@@ -152,7 +150,6 @@
                         <th>@lang('global.resume.fields.phone')</th>
                         <th>@lang('global.resume.fields.phone-temp')</th>
                         <th>@lang('global.resume.fields.created-by')</th>
-                        <th>@lang('global.resume.fields.to-delete-at')</th>
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
@@ -185,7 +182,6 @@
                                 <td field-key='phone'>{{ $resume->phone->phone or '' }}</td>
                                 <td field-key='phone_temp'>{{ $resume->phone_temp }}</td>
                                 <td field-key='created_by'>{{ $resume->created_by->name or '' }}</td>
-                                <td field-key='to_delete_at'>{{ $resume->to_delete_at }}</td>
                                 @if( request('show_deleted') == 1 )
                                 <td>
                                     {!! Form::open(array(
@@ -226,7 +222,7 @@
             @endforeach
         @else
             <tr>
-                <td colspan="18">@lang('global.app_no_entries_in_table')</td>
+                <td colspan="17">@lang('global.app_no_entries_in_table')</td>
             </tr>
         @endif
     </tbody>

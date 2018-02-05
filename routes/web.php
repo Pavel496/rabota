@@ -1,5 +1,16 @@
 <?php
-Route::get('/', function () { return redirect('/admin/home'); });
+
+Route::get('/', function () {
+    $vacancies = App\Vacancy::orderBy('id', 'desc')->paginate(10);
+    return view('index', compact('vacancies')); })->name('index');
+
+
+Route::get('/resume_list', function () {
+    $users = App\User::all();
+    return view('resume-list', compact('users')); })->name('resume_list');
+
+Route::get("my-search","SearchController@mySearch");
+
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
@@ -22,7 +33,7 @@ $this->post('register', 'Auth\RegisterController@register')->name('auth.register
 
 Route::group(['middleware' => ['auth', 'approved'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/home', 'HomeController@index');
-    
+
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::post('permissions_mass_destroy', ['uses' => 'Admin\PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
     Route::resource('vacancies', 'Admin\VacanciesController');
@@ -62,7 +73,9 @@ Route::group(['middleware' => ['auth', 'approved'], 'prefix' => 'admin', 'as' =>
     Route::post('companies_restore/{id}', ['uses' => 'Admin\CompaniesController@restore', 'as' => 'companies.restore']);
     Route::delete('companies_perma_del/{id}', ['uses' => 'Admin\CompaniesController@perma_del', 'as' => 'companies.perma_del']);
 
+    Route::post('phones_myregistr/{id}', ['uses' => 'Admin\PhonesController@myregistr', 'as' => 'phones.myregistr']);
+    Route::get('phones_smscode/{id}', ['middleware' => 'GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:5,60','uses' => 'Admin\PhonesController@smscode', 'as' => 'phones.smscode']);
 
 
- 
+
 });
