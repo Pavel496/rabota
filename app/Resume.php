@@ -2,9 +2,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\FilterByUser;
+use App\Resume;
+
+use Spatie\ModelCleanup\GetsCleanedUp;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 /**
  * Class Resume
@@ -20,15 +24,63 @@ use App\Traits\FilterByUser;
  * @property string $phone
  * @property string $phone_temp
  * @property string $created_by
- * @property string $to_delete_at
 */
-class Resume extends Model
+class Resume extends Model implements GetsCleanedUp
 {
     use SoftDeletes, FilterByUser;
 
-    protected $fillable = ['title', 'text', 'wage', 'company_address', 'avatar', 'phone_temp', 'to_delete_at', 'experience_id', 'lasting_id', 'phone_id', 'created_by_id'];
+    protected $fillable = ['title', 'text', 'wage', 'company_address', 'avatar', 'phone_temp', 'experience_id', 'lasting_id', 'phone_id', 'created_by_id'];
     
     
+     public static function cleanUp(Builder $query) : Builder
+     {
+
+        return $query->where(function ($q) {
+            $q->where('lasting_id', '1')
+                ->where('created_at', '<', Carbon::now()->subDays(1));
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '2')
+                ->where('created_at', '<', Carbon::now()->subDays(2));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '3')
+                ->where('created_at', '<', Carbon::now()->subDays(3));	
+        })->orWhere(function($q) { 
+            $q->where('lasting_id', '4')
+                ->where('created_at', '<', Carbon::now()->subDays(4));
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '5')
+                ->where('created_at', '<', Carbon::now()->subDays(5));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '6')
+                ->where('created_at', '<', Carbon::now()->subDays(6));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '7')
+                ->where('created_at', '<', Carbon::now()->subDays(7));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '8')
+                ->where('created_at', '<', Carbon::now()->subDays(8));	
+        })->orWhere(function($q) { 
+            $q->where('lasting_id', '9')
+                ->where('created_at', '<', Carbon::now()->subDays(9));
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '10')
+                ->where('created_at', '<', Carbon::now()->subDays(10));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '11')
+                ->where('created_at', '<', Carbon::now()->subDays(11));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '12')
+                ->where('created_at', '<', Carbon::now()->subDays(12));	
+        })->orWhere(function($q) {
+            $q->where('lasting_id', '13')
+                ->where('created_at', '<', Carbon::now()->subDays(13));	
+        })->orWhere(function($q) { 
+             $q->where('lasting_id', '14')
+                ->where('created_at', '<', Carbon::now()->subDays(14));
+
+        });        
+
+    }  
 
     /**
      * Set to null if empty
@@ -64,36 +116,6 @@ class Resume extends Model
     public function setCreatedByIdAttribute($input)
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
-    }
-
-    /**
-     * Set attribute to date format
-     * @param $input
-     */
-    public function setToDeleteAtAttribute($input)
-    {
-        if ($input != null && $input != '') {
-            $this->attributes['to_delete_at'] = Carbon::createFromFormat(config('app.date_format'), $input)->format('Y-m-d');
-        } else {
-            $this->attributes['to_delete_at'] = null;
-        }
-    }
-
-    /**
-     * Get attribute from date format
-     * @param $input
-     *
-     * @return string
-     */
-    public function getToDeleteAtAttribute($input)
-    {
-        $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format'));
-
-        if ($input != $zeroDate && $input != null) {
-            return Carbon::createFromFormat('Y-m-d', $input)->format(config('app.date_format'));
-        } else {
-            return '';
-        }
     }
     
     public function sphere_id()

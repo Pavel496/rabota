@@ -2,9 +2,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\FilterByUser;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 /**
  * Class Vacancy
@@ -20,13 +20,29 @@ use App\Traits\FilterByUser;
  * @property string $phone
  * @property string $phone_temp
  * @property string $created_by
- * @property string $to_delete_at
 */
 class Vacancy extends Model
 {
     use SoftDeletes, FilterByUser;
+    //, FilterByUser
+    use SearchableTrait;
 
-    protected $fillable = ['title', 'text', 'wage', 'company_address', 'logotype', 'phone_temp', 'to_delete_at', 'experience_id', 'lasting_id', 'phone_id', 'created_by_id'];
+
+     /**
+     * Searchable rules.
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+            'vacancies.title' => 10,
+            //'users.email' => 5,
+            //'users.id' => 3,
+        ]
+    ];    
+    
+
+    protected $fillable = ['title', 'text', 'wage', 'company_address', 'logotype', 'phone_temp', 'experience_id', 'lasting_id', 'phone_id', 'created_by_id'];
     
     
 
@@ -64,36 +80,6 @@ class Vacancy extends Model
     public function setCreatedByIdAttribute($input)
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
-    }
-
-    /**
-     * Set attribute to date format
-     * @param $input
-     */
-    public function setToDeleteAtAttribute($input)
-    {
-        if ($input != null && $input != '') {
-            $this->attributes['to_delete_at'] = Carbon::createFromFormat(config('app.date_format'), $input)->format('Y-m-d');
-        } else {
-            $this->attributes['to_delete_at'] = null;
-        }
-    }
-
-    /**
-     * Get attribute from date format
-     * @param $input
-     *
-     * @return string
-     */
-    public function getToDeleteAtAttribute($input)
-    {
-        $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format'));
-
-        if ($input != $zeroDate && $input != null) {
-            return Carbon::createFromFormat('Y-m-d', $input)->format(config('app.date_format'));
-        } else {
-            return '';
-        }
     }
     
     public function sphere_id()
