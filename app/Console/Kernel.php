@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Vacancy;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \Spatie\ModelCleanup\CleanUpModelsCommand::class
     ];
 
     /**
@@ -24,8 +25,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+
+        $schedule->command('clean:models')->daily();
+	
+        $schedule->call(function () {
+            include('zadanie.php');
+            foreach ($collection as $item) {
+                $haverecord = Vacancy::where('phone_temp', $item['phone_temp'])->where('text', $item['text'])->first();
+                 if (! $haverecord) {
+                   //$item = array_add($item, 'created_by_id', 1);     
+                   Vacancy::create($item);
+                }
+            }
+        })->everyFiveMinutes();
+        
     }
 
     /**
