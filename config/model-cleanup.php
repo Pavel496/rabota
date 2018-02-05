@@ -6,14 +6,14 @@ return [
      * All models that use the GetsCleanedUp interface in these directories will be cleaned.
      */
     'directories' => [
-        // app_path('models'),
+        app_path(''),
     ],
 
     /*
      * All models in this array that use the GetsCleanedUp interface will be cleaned.
      */
     'models' => [
-        // App\LogItem::class,
+        App\Resume::class,
     ],
 
 ];
