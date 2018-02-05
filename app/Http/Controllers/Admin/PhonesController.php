@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Phone;
+use App\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,43 @@ use Illuminate\Support\Facades\Input;
 
 class PhonesController extends Controller
 {
+    
+    public function smscode($id)
+    {
+        $phone = Phone::findOrFail($id);
+        
+        $code =  random_int(10000, 99999);  
+        
+        include('sendsms.php');
+        $myresult = sendsms($phone->phone, $code);
+        
+        $phone->code = $code;
+        $phone->save();
+
+        return redirect()->route('admin.phones.index');
+    }
+    
+    
+    public function myregistr(Request $request, $id)
+    {
+        if (! Gate::allows('phone_edit')) {
+            return abort(401);
+        }
+        
+        $phone = Phone::findOrFail($id);
+       
+        if ($request->input('smscode') == $phone->code) {
+      
+            $phone->status = true;        
+            $phone->update();
+         
+            Vacancy::where('phone_temp', $phone->phone)
+                    ->update(['created_by_id' => $phone->created_by_id]);        
+        }
+
+        return redirect()->route('admin.phones.index');
+    }          
+    
     /**
      * Display a listing of Phone.
      *
@@ -208,4 +246,9 @@ class PhonesController extends Controller
 
         return redirect()->route('admin.phones.index');
     }
+    
+    
+    
+    
+    
 }

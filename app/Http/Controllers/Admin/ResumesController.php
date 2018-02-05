@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\UpdateResumesRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 
 class ResumesController extends Controller
 {
@@ -80,8 +81,13 @@ class ResumesController extends Controller
         if (! Gate::allows('resume_create')) {
             return abort(401);
         }
+      
+
         $request = $this->saveFiles($request);
+        
+        
         $resume = Resume::create($request->all());
+
         $resume->sphere_id()->sync(array_filter((array)$request->input('sphere_id')));
         $resume->schedule_id()->sync(array_filter((array)$request->input('schedule_id')));
 
@@ -207,7 +213,8 @@ class ResumesController extends Controller
             return abort(401);
         }
         $resume = Resume::onlyTrashed()->findOrFail($id);
-        $resume->restore();
+        $resume->created_at = Carbon::now();
+        $resume->restore();        
 
         return redirect()->route('admin.resumes.index');
     }
