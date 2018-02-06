@@ -30,16 +30,16 @@
 
           <form class="header-job-search" method="GET" action="{{ url('my-search') }}">
             <div class="input-keyword">
-              <input type="text" name="search" class="form-control" placeholder="Условия поиска" value="{{ old('search') }}">
+              <input type="text" name="search" class="form-control" placeholder="Условия расширенного поиска" value="{{ old('search') }}">
             </div>
 
             <div class="input-location">
-              <input type="text" class="form-control" placeholder="Район, город или индекс">
+              <label type="text" class="form-control" placeholder="Район, город или индекс">
             </div>
 
             <div class="btn-search">
               <button class="btn btn-primary" type="submit">Искать работу</button>
-              <a href="job-list.html">Расширенный поиск</a>
+              {{-- <a href="job-list.html">Расширенный поиск</a> --}}
             </div>
           </form>
 
@@ -47,6 +47,10 @@
 
         </div>
       </div>
+
+      <br>
+      <p class="text-center"><a class="btn btn-info" href="/">Посмотреть все вакансии</a></p>
+      
     </header>
     <!-- END Site header -->
 
