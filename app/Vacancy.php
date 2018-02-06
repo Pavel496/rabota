@@ -36,15 +36,16 @@ class Vacancy extends Model
     protected $searchable = [
         'columns' => [
             'vacancies.title' => 10,
+            'vacancies.text' => 10,
             //'users.email' => 5,
             //'users.id' => 3,
         ]
-    ];    
-    
+    ];
+
 
     protected $fillable = ['title', 'text', 'wage', 'company_address', 'logotype', 'phone_temp', 'experience_id', 'lasting_id', 'phone_id', 'created_by_id'];
-    
-    
+
+
 
     /**
      * Set to null if empty
@@ -81,35 +82,35 @@ class Vacancy extends Model
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
     }
-    
+
     public function sphere_id()
     {
         return $this->belongsToMany(Sphere::class, 'sphere_vacancy')->withTrashed();
     }
-    
+
     public function schedule_id()
     {
         return $this->belongsToMany(Schedule::class, 'schedule_vacancy')->withTrashed();
     }
-    
+
     public function experience()
     {
         return $this->belongsTo(Experience::class, 'experience_id')->withTrashed();
     }
-    
+
     public function lasting()
     {
         return $this->belongsTo(Lasting::class, 'lasting_id')->withTrashed();
     }
-    
+
     public function phone()
     {
         return $this->belongsTo(Phone::class, 'phone_id')->withTrashed();
     }
-    
+
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
-    
+
 }
