@@ -17,14 +17,14 @@ class SearchController extends Controller
     {
 
     	if($request->has('search')){
-        $mylink = false;
+        // $mylink = false;
         $vacancies = Vacancy::search($request->get('search'))->orderBy('id', 'desc')->get();
     	}else{
-        $mylink = true;
+        // $mylink = true;
     		$vacancies = Vacancy::orderBy('id', 'desc')->paginate(10);
     	}
 
 
-    	return view('index', compact('vacancies', 'mylink'));
+    	return view('index', compact('vacancies'));
     }
 }

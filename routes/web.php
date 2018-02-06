@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    $mylink = true;
+    // $mylink = true;
     $vacancies = App\Vacancy::orderBy('id', 'desc')->paginate(10);
     return view('index', compact('vacancies', 'mylink')); })->name('index');
 
