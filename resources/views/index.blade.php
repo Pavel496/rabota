@@ -50,7 +50,7 @@
 
       <br>
       <p class="text-center"><a class="btn btn-info" href="/">Посмотреть все вакансии</a></p>
-      
+
     </header>
     <!-- END Site header -->
 
@@ -101,9 +101,14 @@
             @endforeach
 
           </div>
-@if ($mylink)
+
+          @if( method_exists($vacancies,'links') )
+             {{  $vacancies->links() }}
+          @endif
+
+{{-- @if ($mylink)
   {{ $vacancies->links() }}
-@endif
+@endif --}}
           <br><br>
           <p class="text-center"><a class="btn btn-info" href="/">Посмотреть все вакансии</a></p>
         </div>
