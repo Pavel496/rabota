@@ -37,6 +37,7 @@ class Vacancy extends Model
         'columns' => [
             'vacancies.title' => 10,
             'vacancies.text' => 10,
+            'vacancies.company_address' => 7,
             //'users.email' => 5,
             //'users.id' => 3,
         ]
